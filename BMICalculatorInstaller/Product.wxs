@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="BMICalculatorInstaller" Language="1033" Version="1.0.0.0" Manufacturer="Aarush Singh" UpgradeCode="cf12b35c-79e0-4c52-b254-2462bd6b8dae">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate EmbedCab="yes" />
+
+		<Feature Id="ProductFeature" Title="BMICalculatorInstaller" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+		</Feature>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="BMICalculatorInstaller" />
+			</Directory>
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+			<Component Id="BMICalculatorApp.exe" Guid="1C24CD7E-01C0-47D9-8F19-D0EEBEFE0809">
+				<File Id="BMICalculatorApp.exe" Name="BMICalculatorApp.exe" Source="$(var.BMICalculatorApp.TargetDir)BMICalculatorApp.exe" />
+				<Shortcut Id="ApplicationShortcut" Name="BMI Calculator" Description="Launch BMI Calculator" Target="[#BMICalculatorApp.exe]" WorkingDirectory="INSTALLFOLDER" />
+				<RemoveFolder Id="INSTALLFOLDER" On="uninstall" />
+				<RegistryValue Root="HKCU" Key="Software\ICT Student\BMI Calculator" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+			</Component>
+			<Component Id="BMICalculatorLib.dll" Guid="FCF78985-D7B9-4AC5-8FF5-32FC5BE256C5">
+				<File Id="BMICalculatorLib.dll" Name="BMICalculatorLib.dll" Source="$(var.BMICalculatorLib.TargetDir)BMICalculatorLib.dll" />
+			</Component>
+			<Component Id="BMIUtilityLib.dll" Guid="86BDE906-CB76-4794-B4AA-A81772F7FEB5">
+				<File Id="BMIUtilityLib.dll" Name="BMIUtilityLib.dll" Source="$(var.BMIUtilityLib.TargetDir)BMIUtilityLib.dll" />
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+</Wix>
